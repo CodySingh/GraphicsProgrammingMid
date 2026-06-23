@@ -4,6 +4,7 @@ let world = Matter.World;
 let Bodies = Matter.Bodies;
 
 let engine;
+let world;
 
 
 
@@ -15,6 +16,10 @@ class car{
         this.height = height;
         this.speed = speed;
         this.color = color;
+
+        this.body = Bodies.rectangle(this.x, this.y, this.width, this.height);
+
+        world.add(world, this.body);
     }
 }
 
@@ -25,7 +30,7 @@ function setup(){
     strokeWeight(3);    
 
     engine = Engine.create();
-    
+    world = engine.world;
 }
 
 
