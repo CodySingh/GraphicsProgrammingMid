@@ -1,10 +1,17 @@
 
 let Engine = Matter.Engine;
-let world = Matter.World;
+let World = Matter.World;
 let Bodies = Matter.Bodies;
 
-let engine;
-let world;
+let engine = Engine.create();
+let world = engine.world;
+
+
+
+
+
+
+
 
 
 
@@ -19,9 +26,16 @@ class car{
 
         this.body = Bodies.rectangle(this.x, this.y, this.width, this.height);
 
-        world.add(world, this.body);
+        World.add(world, this.body);
     }
 }
+
+
+let car1 = new car(40, 350, 50, 30, 5, 'red');
+let car2 = new car(40, 400, 50, 30, 5, 'green');
+let car3 = new car(40, 450, 50, 30, 5, 'yellow');
+let car4 = new car(40, 500, 50, 30, 5, 'orange');
+
 
 
 function setup(){
@@ -29,8 +43,7 @@ function setup(){
     stroke(0);
     strokeWeight(3);    
 
-    engine = Engine.create();
-    world = engine.world;
+
 }
 
 
@@ -38,7 +51,8 @@ function draw(){
     background(220);
     playingArea();
     startingArea();
-    drawCar();
+    drawCar(car);
+    keyPressed();
 
 }
 
@@ -57,14 +71,7 @@ function startingArea(){
     
 }
 
-function drawCar(){
-    
-    let car1 = new car(40, 350, 50, 30, 5, 'red');
-    let car2 = new car(40, 400, 50, 30, 5, 'green');
-    let car3 = new car(40, 450, 50, 30, 5, 'yellow');
-    let car4 = new car(40, 500, 50, 30, 5, 'orange');
-
-    // Draw the cars
+function drawCar(car) {
     fill(car1.color);
     rect(car1.x, car1.y, car1.width, car1.height);
 
@@ -76,6 +83,19 @@ function drawCar(){
 
     fill(car4.color);
     rect(car4.x, car4.y, car4.width, car4.height);
+}
+
+function keyPressed() {
+
+    if (keyCode === UP_ARROW) {
+        car1.y -= car1.speed;
+    } else if (keyCode === DOWN_ARROW) {
+        car1.y += car1.speed;
+    } else if (keyCode === LEFT_ARROW) {
+        car1.x -= car1.speed;
+    } else if (keyCode === RIGHT_ARROW) {
+        car1.x += car1.speed;
+    }
 
 }
 
