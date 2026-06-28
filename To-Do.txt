@@ -2,9 +2,13 @@ what we have done so far:
 1. created the play area 
 2. created the car class for future objects 
 3. created the game engine, world and bodies
+4. create a cars array
+5. create player controls/movements 
+6. create a standard car and a slow car
+7. 
+
 
 what we need to do: 
-1. create player controls/movement 
 2. add computer cars 
 3. add multiple difficulties (using number keys to choose between stages)
 4. create the respawn button 

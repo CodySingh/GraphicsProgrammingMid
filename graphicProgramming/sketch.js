@@ -35,7 +35,9 @@ function setup(){
 
 
     //draw the player car 
-    player = new car(40, 350, 50, 30, 'red');
+    //standard car specs: engineForce: 0.0025, maxForwardSpeed: 8, maxReverseSpeed: 3, turningSpeed: 0.04
+    //slow car specs: engineForce: 0.0015, maxForwardSpeed: 4, maxReverseSpeed: 2, turningSpeed:0.03
+    player = new car(40, 350, 50, 30, 'red', 0.025, 8, 3, 0.04);
     cars.push(player);
 }
 
@@ -110,7 +112,7 @@ function createWalls() {
 
 // CLASSES 
 class car{
-    constructor(x, y, w, h, color){
+    constructor(x, y, w, h, color, engineForce, maxForwardSpeed, maxReverseSpeed, turnSpeed){
 
         
         //car properties
