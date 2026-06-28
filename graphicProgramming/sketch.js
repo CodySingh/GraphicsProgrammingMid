@@ -83,20 +83,21 @@ function startingArea(){
 
 function handleInput() {
 
-    let speed = 5;
+    let player = cars[0];
 
-    if (keyIsDown(UP_ARROW)) {
-        player.move(0, -speed);
-    }
-    if (keyIsDown(DOWN_ARROW)) {
-        player.move(0, speed);
+    if (keyIsDown(RIGHT_ARROW)) {
+        player.moveRight();
     }
     if (keyIsDown(LEFT_ARROW)) {
-        player.move(-speed, 0);
+        player.moveLeft();
     }
-    if (keyIsDown(RIGHT_ARROW)) {
-        player.move(speed, 0);
+    if (keyIsDown(UP_ARROW)) {
+        player.turnLeft();
     }
+    if (keyIsDown(DOWN_ARROW)) {
+        player.turnRight();
+    }
+
 }
 
 function createWalls() {
@@ -111,11 +112,19 @@ function createWalls() {
 class car{
     constructor(x, y, w, h, color){
 
-        this.body = Bodies.rectangle(x, y, w, h, color);
-
+        
+        //car properties
         this.width = w;
         this.height = h;
         this.color = color;
+
+        
+        //car movement properties 
+        this.maxForwardSpeed = 8;
+        this.maxReverseSpeed = 3;
+
+        this.engineForce = 0.0025;
+        this.turnSpeed = 0.04;
 
         this.body = Bodies.rectangle(x, y, w, h, {restitution: 0.5, friction:0.5});
 
@@ -126,22 +135,65 @@ class car{
     draw() {
 
         push();
-        fill('red');
-        rectMode(CENTER);
-        rect(this.body.position.x, this.body.position.y, this.width, this.height);
+
+        translate( this.body.position.x, this.body.position.y);
         rotate(this.body.angle);
+
+        rectMode(CENTER);
+        fill(this.color);
+        rect(0, 0, this.width, this.height);
         pop();
 
     }
 
-    move(dx, dy) {
+    //Right is relative to the player's view (forward)
+    moveRight() {
 
-        Body.setPosition(this.body, {
-            x: this.body.position.x + dx,
-            y: this.body.position.y + dy
-        });
+        let angle = this.body.angle;
+
+        let forwardSpeed = this.body.velocity.x * Math.cos(angle) + this.body.velocity.y * Math.sin(angle);
+
+        if (forwardSpeed < this.maxForwardSpeed) {
+
+            Body.applyForce(this.body, this.body.position, {
+                x: Math.cos(angle) * this.engineForce,
+                y: Math.sin(angle) * this.engineForce
+            });
+
+        }
 
     }
+
+    //Left is relative to the player's view (reverse)
+    moveLeft() {
+
+        let angle = this.body.angle;
+
+        let reverseSpeed = this.body.velocity.x * Math.cos(angle) + this.body.velocity.y * Math.sin(angle);
+
+        if (reverseSpeed > -this.maxReverseSpeed) {
+
+            Body.applyForce(this.body, this.body.position, {
+                x: -Math.cos(angle) * this.engineForce,
+                y: -Math.sin(angle) * this.engineForce
+            });
+            
+        }
+
+    }
+    
+    turnLeft() {
+
+        Body.setAngle(this.body, this.body.angle - this.turnSpeed);
+
+    }
+
+    turnRight() {
+
+        Body.setAngle(this.body, this.body.angle + this.turnSpeed);
+
+    }
+
     
 }
 
@@ -154,7 +206,7 @@ class wall {
         this.body = Bodies.rectangle(x, y, w, h, {isStatic: true, restitution:1});
         
         World.add(world, this.body);
-        
+
     }
 
     draw() {
