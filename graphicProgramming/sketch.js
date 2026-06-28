@@ -7,14 +7,6 @@ let engine = Engine.create();
 let world = engine.world;
 
 
-
-
-
-
-
-
-
-
 class car{
     constructor(x, y, width, height, speed, color){
         this.x = x;
@@ -83,6 +75,8 @@ function drawCar(car) {
 
     fill(car4.color);
     rect(car4.x, car4.y, car4.width, car4.height);
+
+    
 }
 
 function keyPressed() {
