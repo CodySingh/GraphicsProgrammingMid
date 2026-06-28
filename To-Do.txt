@@ -1,3 +1,17 @@
-movement of car now working 
-to do:
-1. add rotation of the car 
+what we have done so far: 
+1. created the play area 
+2. created the car class for future objects 
+3. created the game engine, world and bodies
+
+what we need to do: 
+1. create player controls/movement 
+2. add computer cars 
+3. add multiple difficulties (using number keys to choose between stages)
+4. create the respawn button 
+
+
+
+Things to take note:
+1. instead of declaring multiple cars, create a cars array 
+2. dont build too many functions, build movement into the car class
+3. 
