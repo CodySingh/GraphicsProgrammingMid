@@ -9,6 +9,8 @@ let Body = Matter.Body;
 //Global variables 
 let engine;
 let world;
+let wudth = 1400;
+let height = 700;
 
 let spawnMode = false;
 let player = null;
@@ -36,7 +38,7 @@ function setup(){
 
     createWalls();
     
-
+    drawInstructions();
 }
 
 
@@ -133,6 +135,17 @@ function mousePressed() {
         spawnMode = false;
     }
 
+}
+
+function drawInstructions() {
+
+    push();
+    stroke(0);
+    strokeWeight(3);
+    fill('red');
+    rect(width/3, width/3, width/3, width/3);
+    pop();
+    
 }
 
 
