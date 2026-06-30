@@ -38,7 +38,7 @@ function setup(){
 
     createWalls();
     
-    drawInstructions();
+    
 }
 
 
@@ -137,16 +137,7 @@ function mousePressed() {
 
 }
 
-function drawInstructions() {
 
-    push();
-    stroke(0);
-    strokeWeight(3);
-    fill('red');
-    rect(width/3, width/3, width/3, width/3);
-    pop();
-    
-}
 
 
 function handleInput() {
