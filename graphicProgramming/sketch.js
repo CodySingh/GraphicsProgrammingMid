@@ -113,11 +113,11 @@ function mousePressed() {
         return;
 
     if (mouseX >= 0 && mouseX <= startingAreaW && mouseY >= 0 && mouseY <= height) {
-        spawnPlayer();
+        spawnPlayer(50, 350);
         spawnOpponent(50,150, 'yellow', 0.0025, 8, 3, 0.04);
         spawnOpponent(50,100, 'green', 0.0025, 8, 3, 0.04);
         spawnOpponent(50,300, 'white', 0.0025, 8, 3, 0.04);
-        spawnOpponent(50,350, 'pink', 0.0025, 8, 3, 0.04);
+        spawnOpponent(50, 400, 'pink', 0.0025, 8, 3, 0.04);
         spawnMode = false;
     }
 
@@ -138,7 +138,7 @@ function resetGame() {
 
 function spawnPlayer(x, y) {
 
-    player = new car(50, 350, 50, 30, 'red', 0.0025, 8, 3, 0.04, "player");
+    player = new car(x, y, 50, 30, 'red', 0.0025, 8, 3, 0.04, "player");
     cars.push(player);
 
 }
