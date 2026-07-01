@@ -15,6 +15,7 @@ let height = 700;
 let spawnMode = false;
 let player = null;
 
+
 let wallThickness = 5;
 
 let startingAreaW = 100;
@@ -51,7 +52,7 @@ function draw(){
     playingArea();
     startingArea();
 
-    handleInput();
+    playerControl();
 
     if (spawnMode) {
 
@@ -96,30 +97,11 @@ function startingArea(){
     
 }
 
-function spawnPlayer(x, y) {
-
-    player = new car(40, 350, 50, 30, 'red', 0.025, 8, 3, 0.04);
-    cars.push(player);
-}
-
-function resetGame() {
-
-    for (let car of cars) {
-        world.remove(world, car.body);
-    }
-
-    cars = [];
-    player = null;
-
-}
-
 function keyPressed() {
 
     if (key === "i" || key === "I") {
 
         resetGame();
-
-        spawnMode = true;
 
     }
 }
@@ -130,20 +112,41 @@ function mousePressed() {
         return;
 
     if (mouseX >= 0 && mouseX <= startingAreaW && mouseY >= 0 && mouseY <= height) {
-        spawnPlayer(mouseX, mouseY);
-
+        spawnPlayer();
+        spawnOpponent(50,150, 'yellow', 0.025, 8, 3, 0.04);
+        spawnOpponent(50,100, 'green', 0.025, 8, 3, 0.04);
+        spawnOpponent(50,300, 'white', 0.025, 8, 3, 0.04);
+        spawnOpponent(50,350, 'pink', 0.025, 8, 3, 0.04);
         spawnMode = false;
     }
 
 }
 
+function resetGame() {
 
+    for (let car of cars) {
+        World.remove(world, car.body);
+    }
 
+    cars = [];
+    player = null;
 
-function handleInput() {
+    spawnMode = true;
 
-    let player = cars[0];
+}
 
+function spawnPlayer(x, y) {
+
+    player = new car(50, 350, 50, 30, 'red', 0.025, 8, 3, 0.04, "player");
+    cars.push(player);
+
+}
+
+function playerControl() {
+
+    if(player == null) {
+        return;
+    }
     if (keyIsDown(UP_ARROW)) {
         player.moveRight();
     }
@@ -159,6 +162,25 @@ function handleInput() {
 
 }
 
+function spawnOpponent(x, y, color, engineForce, maxForwardSpeed, maxReverseSpeed, turnSpeed) {
+
+    let opponent = new car(x, y, 50, 30, color, engineForce, maxForwardSpeed, maxReverseSpeed, turnSpeed, "opponent");
+    cars.push(opponent);
+
+}
+
+function opponentControls() {
+
+    for (let car of cars) {
+
+        if (car.type != "opponent")
+            continue;
+
+        car.moveRight();
+
+    }
+}
+
 function createWalls() {
 
     walls.push(new wall(width/2, wallThickness/2, width, wallThickness, 'black')); //top wall
@@ -172,7 +194,7 @@ class car {
 
      //standard car specs: engineForce: 0.0025, maxForwardSpeed: 8, maxReverseSpeed: 3, turningSpeed: 0.04
     //slow car specs: engineForce: 0.0015, maxForwardSpeed: 4, maxReverseSpeed: 2, turningSpeed:0.03
-    constructor(x, y, w, h, color, engineForce, maxForwardSpeed, maxReverseSpeed, turnSpeed){
+    constructor(x, y, w, h, color, engineForce, maxForwardSpeed, maxReverseSpeed, turnSpeed, type){
 
         
         //car properties
@@ -187,6 +209,9 @@ class car {
 
         this.engineForce = 0.0025;
         this.turnSpeed = 0.04;
+
+        //car type
+        this.type = type;
 
         this.body = Bodies.rectangle(x, y, w, h, {restitution: 0.5, friction:0.5});
 
