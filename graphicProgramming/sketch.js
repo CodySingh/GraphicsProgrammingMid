@@ -53,6 +53,7 @@ function draw(){
     startingArea();
 
     playerControl();
+    opponentControls();
 
     if (spawnMode) {
 
@@ -113,10 +114,10 @@ function mousePressed() {
 
     if (mouseX >= 0 && mouseX <= startingAreaW && mouseY >= 0 && mouseY <= height) {
         spawnPlayer();
-        spawnOpponent(50,150, 'yellow', 0.025, 8, 3, 0.04);
-        spawnOpponent(50,100, 'green', 0.025, 8, 3, 0.04);
-        spawnOpponent(50,300, 'white', 0.025, 8, 3, 0.04);
-        spawnOpponent(50,350, 'pink', 0.025, 8, 3, 0.04);
+        spawnOpponent(50,150, 'yellow', 0.0025, 8, 3, 0.04);
+        spawnOpponent(50,100, 'green', 0.0025, 8, 3, 0.04);
+        spawnOpponent(50,300, 'white', 0.0025, 8, 3, 0.04);
+        spawnOpponent(50,350, 'pink', 0.0025, 8, 3, 0.04);
         spawnMode = false;
     }
 
@@ -137,7 +138,7 @@ function resetGame() {
 
 function spawnPlayer(x, y) {
 
-    player = new car(50, 350, 50, 30, 'red', 0.025, 8, 3, 0.04, "player");
+    player = new car(50, 350, 50, 30, 'red', 0.0025, 8, 3, 0.04, "player");
     cars.push(player);
 
 }
@@ -204,11 +205,11 @@ class car {
 
         
         //car movement properties 
-        this.maxForwardSpeed = 8;
-        this.maxReverseSpeed = 3;
+        this.maxForwardSpeed = maxForwardSpeed;
+        this.maxReverseSpeed = maxReverseSpeed;
 
-        this.engineForce = 0.0025;
-        this.turnSpeed = 0.04;
+        this.engineForce = engineForce;
+        this.turnSpeed = turnSpeed;
 
         //car type
         this.type = type;
