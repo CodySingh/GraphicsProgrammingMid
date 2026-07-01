@@ -37,6 +37,8 @@ function setup(){
     world.gravity.y = 0;
     world.gravity.x = 0;
 
+    Matter.Events.on(engine, "collisionStart", collisionSystem);
+
     createWalls();
     
     
@@ -47,13 +49,18 @@ function draw(){
 
     background(220);
 
+    //player and computer Inputs
+    playerControl();
+    opponentControls();
+
+    //updating engine 
     Engine.update(engine);
 
+    //drawing of playing area 
     playingArea();
     startingArea();
 
-    playerControl();
-
+    //spawning player and computer cars
     if (spawnMode) {
 
         push();
@@ -68,7 +75,8 @@ function draw(){
         pop();
 
     }
-
+    
+    //drawing of cars and walls 
     for (let car of cars) { 
         car.draw();
     }
@@ -112,11 +120,11 @@ function mousePressed() {
         return;
 
     if (mouseX >= 0 && mouseX <= startingAreaW && mouseY >= 0 && mouseY <= height) {
-        spawnPlayer();
+        spawnPlayer(50, 350);
         spawnOpponent(50,150, 'yellow', 0.025, 8, 3, 0.04);
         spawnOpponent(50,100, 'green', 0.025, 8, 3, 0.04);
         spawnOpponent(50,300, 'white', 0.025, 8, 3, 0.04);
-        spawnOpponent(50,350, 'pink', 0.025, 8, 3, 0.04);
+        spawnOpponent(50,400, 'pink', 0.025, 8, 3, 0.04);
         spawnMode = false;
     }
 
@@ -137,7 +145,7 @@ function resetGame() {
 
 function spawnPlayer(x, y) {
 
-    player = new car(50, 350, 50, 30, 'red', 0.025, 8, 3, 0.04, "player");
+    player = new car(x, y, 50, 30, 'red', 0.025, 8, 3, 0.04, "player");
     cars.push(player);
 
 }
@@ -181,6 +189,41 @@ function opponentControls() {
     }
 }
 
+function collisionSystem(event) { 
+
+    for (let pair of event.pairs) {
+
+        let bodyA = pair.bodyA;
+        let bodyB = pair.bodyB;
+
+        //if opponent hit wall
+        if (bodyA.type == "opponent" && bodyB.type == "wall") {
+
+            bodyA.gameObject.turnAround();
+
+        }
+
+        else if (bodyB.type == "wall" && bodyA.type == "opponent") {
+
+            bodyA.gameObject.turnAround();
+
+        }
+
+        //if opponent hit car
+        else if (bodyA.type == "opponent" && (bodyB.type == "opponent" || bodyB.type == "player")) {
+            
+            bodyA.gameObject.turnRandom90();
+
+        }
+
+        else if (bodyB.type == "opponent" && bodyA.type == "opponent" || bodyA.type == "player") {
+
+            bodyB.gameObject.turnRandom90();
+
+        }
+    }
+}
+
 function createWalls() {
 
     walls.push(new wall(width/2, wallThickness/2, width, wallThickness, 'black')); //top wall
@@ -204,16 +247,20 @@ class car {
 
         
         //car movement properties 
-        this.maxForwardSpeed = 8;
-        this.maxReverseSpeed = 3;
+        this.maxForwardSpeed = maxForwardSpeed;
+        this.maxReverseSpeed = maxReverseSpeed;
 
-        this.engineForce = 0.0025;
-        this.turnSpeed = 0.04;
+        this.engineForce = engineForce;
+        this.turnSpeed = turnSpeed;
 
         //car type
         this.type = type;
 
         this.body = Bodies.rectangle(x, y, w, h, {restitution: 0.5, friction:0.5});
+
+        //Information for the Collision System
+        this.body.type = type;
+        this.body.gameObject = this;
 
         World.add(world, this.body);
 
@@ -250,6 +297,7 @@ class car {
 
     //Right is relative to the player's view (forward)
     moveRight() {
+        console.log(this.engineForce);
 
         let angle = this.body.angle;
 
@@ -296,6 +344,32 @@ class car {
 
     }
 
+    turnAround() {
+
+        Body.setAngle(this.body, this.body.angle + PI);
+
+    }
+
+    turnRandom90() {
+
+        let turn;
+
+        if (random() < 0.5) {
+
+            turn = HALF_PI;
+
+        }
+
+        else {
+
+            turn = -HALF_PI;
+
+        }
+
+        Body.setAngle(this.body, this.body.angle + turn);
+
+    }
+
     
 }
 
@@ -306,6 +380,8 @@ class wall {
         this.height = h;
         this.color = color;
         this.body = Bodies.rectangle(x, y, w, h, {isStatic: true, restitution:1});
+
+        this.body.type = "wall";
         
         World.add(world, this.body);
 
