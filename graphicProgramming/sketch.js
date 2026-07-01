@@ -40,8 +40,7 @@ function setup(){
     Matter.Events.on(engine, "collisionStart", collisionSystem);
 
     createWalls();
-    
-    
+
 }
 
 
@@ -121,10 +120,10 @@ function mousePressed() {
 
     if (mouseX >= 0 && mouseX <= startingAreaW && mouseY >= 0 && mouseY <= height) {
         spawnPlayer(50, 350);
-        spawnOpponent(50,150, 'yellow', 0.025, 8, 3, 0.04);
-        spawnOpponent(50,100, 'green', 0.025, 8, 3, 0.04);
-        spawnOpponent(50,300, 'white', 0.025, 8, 3, 0.04);
-        spawnOpponent(50,400, 'pink', 0.025, 8, 3, 0.04);
+        //spawnOpponent(50,150, 'yellow', 0.025, 8, 3, 0.04);
+        //spawnOpponent(50,100, 'green', 0.025, 8, 3, 0.04);
+        //spawnOpponent(50,300, 'white', 0.025, 8, 3, 0.04);
+        //spawnOpponent(50,400, 'pink', 0.025, 8, 3, 0.04);
         spawnMode = false;
     }
 
@@ -297,7 +296,6 @@ class car {
 
     //Right is relative to the player's view (forward)
     moveRight() {
-        console.log(this.engineForce);
 
         let angle = this.body.angle;
 
@@ -313,7 +311,7 @@ class car {
         }
 
     }
-
+    
     //Left is relative to the player's view (reverse)
     moveLeft() {
 
