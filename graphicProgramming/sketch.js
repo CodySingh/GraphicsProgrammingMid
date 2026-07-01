@@ -37,7 +37,6 @@ function setup(){
     world.gravity.y = 0;
     world.gravity.x = 0;
 
-    Matter.Events.on(engine, "collisionStart", collisionSystem);
 
     createWalls();
 
@@ -120,10 +119,10 @@ function mousePressed() {
 
     if (mouseX >= 0 && mouseX <= startingAreaW && mouseY >= 0 && mouseY <= height) {
         spawnPlayer(50, 350);
-        //spawnOpponent(50,150, 'yellow', 0.025, 8, 3, 0.04);
-        //spawnOpponent(50,100, 'green', 0.025, 8, 3, 0.04);
-        //spawnOpponent(50,300, 'white', 0.025, 8, 3, 0.04);
-        //spawnOpponent(50,400, 'pink', 0.025, 8, 3, 0.04);
+        //spawnOpponent(50,150, 'yellow', 0.0025, 8, 3, 0.04);
+        //spawnOpponent(50,100, 'green', 0.0025, 8, 3, 0.04);
+        //spawnOpponent(50,300, 'white', 0.0025, 8, 3, 0.04);
+        //spawnOpponent(50,400, 'pink', 0.0025, 8, 3, 0.04);
         spawnMode = false;
     }
 
@@ -144,7 +143,7 @@ function resetGame() {
 
 function spawnPlayer(x, y) {
 
-    player = new car(x, y, 50, 30, 'red', 0.025, 8, 3, 0.04, "player");
+    player = new car(x, y, 50, 30, 'red', 0.0025, 8, 3, 0.04, "player");
     cars.push(player);
 
 }
@@ -188,40 +187,7 @@ function opponentControls() {
     }
 }
 
-function collisionSystem(event) { 
 
-    for (let pair of event.pairs) {
-
-        let bodyA = pair.bodyA;
-        let bodyB = pair.bodyB;
-
-        //if opponent hit wall
-        if (bodyA.type == "opponent" && bodyB.type == "wall") {
-
-            bodyA.gameObject.turnAround();
-
-        }
-
-        else if (bodyB.type == "wall" && bodyA.type == "opponent") {
-
-            bodyA.gameObject.turnAround();
-
-        }
-
-        //if opponent hit car
-        else if (bodyA.type == "opponent" && (bodyB.type == "opponent" || bodyB.type == "player")) {
-            
-            bodyA.gameObject.turnRandom90();
-
-        }
-
-        else if (bodyB.type == "opponent" && bodyA.type == "opponent" || bodyA.type == "player") {
-
-            bodyB.gameObject.turnRandom90();
-
-        }
-    }
-}
 
 function createWalls() {
 
