@@ -224,7 +224,9 @@ class car {
         this.body = Bodies.rectangle(x, y, w, h, {restitution: 0.5, friction:0.5});
 
         //Information for the Collision System
-        this.body.type = type;
+        
+
+        
         
 
         World.add(world, this.body);
