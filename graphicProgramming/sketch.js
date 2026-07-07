@@ -37,9 +37,9 @@ function setup(){
     world.gravity.y = 0;
     world.gravity.x = 0;
 
+
     createWalls();
-    
-    
+
 }
 
 
@@ -47,14 +47,18 @@ function draw(){
 
     background(220);
 
-    Engine.update(engine);
-
-    playingArea();
-    startingArea();
-
+    //player and computer Inputs
     playerControl();
     opponentControls();
 
+    //updating engine 
+    Engine.update(engine);
+
+    //drawing of playing area 
+    playingArea();
+    startingArea();
+
+    //spawning player and computer cars
     if (spawnMode) {
 
         push();
@@ -69,7 +73,8 @@ function draw(){
         pop();
 
     }
-
+    
+    //drawing of cars and walls 
     for (let car of cars) { 
         car.draw();
     }
@@ -117,7 +122,7 @@ function mousePressed() {
         spawnOpponent(50,150, 'yellow', 0.0025, 8, 3, 0.04);
         spawnOpponent(50,100, 'green', 0.0025, 8, 3, 0.04);
         spawnOpponent(50,300, 'white', 0.0025, 8, 3, 0.04);
-        spawnOpponent(50, 400, 'pink', 0.0025, 8, 3, 0.04);
+        spawnOpponent(50,400, 'pink', 0.0025, 8, 3, 0.04);
         spawnMode = false;
     }
 
@@ -181,6 +186,8 @@ function opponentControls() {
 
     }
 }
+
+
 
 function createWalls() {
 
@@ -266,7 +273,7 @@ class car {
         }
 
     }
-
+    
     //Left is relative to the player's view (reverse)
     moveLeft() {
 
@@ -297,6 +304,32 @@ class car {
 
     }
 
+    turnAround() {
+
+        Body.setAngle(this.body, this.body.angle + PI);
+
+    }
+
+    turnRandom90() {
+
+        let turn;
+
+        if (random() < 0.5) {
+
+            turn = HALF_PI;
+
+        }
+
+        else {
+
+            turn = -HALF_PI;
+
+        }
+
+        Body.setAngle(this.body, this.body.angle + turn);
+
+    }
+
     
 }
 
@@ -307,6 +340,9 @@ class wall {
         this.height = h;
         this.color = color;
         this.body = Bodies.rectangle(x, y, w, h, {isStatic: true, restitution:1});
+        
+
+        this.body.type = "wall";
         
         World.add(world, this.body);
 
