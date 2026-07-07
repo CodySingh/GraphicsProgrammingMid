@@ -40,6 +40,8 @@ function setup(){
 
     createWalls();
 
+    
+
 }
 
 
@@ -195,6 +197,8 @@ function createWalls() {
     walls.push(new wall(width/2, height - wallThickness/2, width, wallThickness, 'black')); //bottom wall
     walls.push(new wall(wallThickness/2, height/2, wallThickness, height, 'black'));//left wall
     walls.push(new wall(width - wallThickness/2, height/2, wallThickness, height, 'black'));//right wall
+
+    console.log(walls.length);
 }
 
 // CLASSES 
