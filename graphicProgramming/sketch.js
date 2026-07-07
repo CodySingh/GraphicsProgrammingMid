@@ -119,10 +119,10 @@ function mousePressed() {
 
     if (mouseX >= 0 && mouseX <= startingAreaW && mouseY >= 0 && mouseY <= height) {
         spawnPlayer(50, 350);
-        //spawnOpponent(50,150, 'yellow', 0.0025, 8, 3, 0.04);
-        //spawnOpponent(50,100, 'green', 0.0025, 8, 3, 0.04);
-        //spawnOpponent(50,300, 'white', 0.0025, 8, 3, 0.04);
-        //spawnOpponent(50,400, 'pink', 0.0025, 8, 3, 0.04);
+        spawnOpponent(50,150, 'yellow', 0.0025, 8, 3, 0.04);
+        spawnOpponent(50,100, 'green', 0.0025, 8, 3, 0.04);
+        spawnOpponent(50,300, 'white', 0.0025, 8, 3, 0.04);
+        spawnOpponent(50,400, 'pink', 0.0025, 8, 3, 0.04);
         spawnMode = false;
     }
 
