@@ -225,7 +225,7 @@ class car {
 
         //Information for the Collision System
         this.body.type = type;
-        this.body.gameObject = this;
+        
 
         World.add(world, this.body);
 
