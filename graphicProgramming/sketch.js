@@ -198,7 +198,7 @@ function createWalls() {
     walls.push(new wall(wallThickness/2, height/2, wallThickness, height, 'black'));//left wall
     walls.push(new wall(width - wallThickness/2, height/2, wallThickness, height, 'black'));//right wall
 
-    console.log(walls.length);
+    
 }
 
 // CLASSES 
@@ -351,7 +351,7 @@ class wall {
         this.color = color;
         this.body = Bodies.rectangle(x, y, w, h, {isStatic: true, restitution:1});
 
-        this.body.type = "wall";
+        this.bodyLabel = "wall";
         
         World.add(world, this.body);
 
