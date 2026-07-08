@@ -32,6 +32,7 @@ function setup(){
     strokeWeight(3);
 
     engine = Engine.create();
+    Matter.Events.on(engine, "collisionStart", collisionSystem);
     world = engine.world;
 
     world.gravity.y = 0;
@@ -189,6 +190,40 @@ function opponentControls() {
     }
 }
 
+function collisionSystem(event) {
+
+    for (let pair of event.pairs) {
+
+        let objectA = pair.bodyA.gameObject;
+        let objectB = pair.bodyB.gameObject;
+
+        if (!objectA || !objectB) {
+            continue;
+        }
+
+        //if opponent hits wall 
+        if (objectA.type === "opponent" && objectB.type === "wall") {
+            objectA.turnAround();
+
+        }
+        else if (objectA.type === "wall" && objectB.type === "opponent") {
+            objectB.turnAround();
+        }
+
+        //if opponent hits another car
+        else if  (objectA.type === "opponent" && (objectB.type === "player" || objectB.type === "opponent")) {
+            objectA.turnRandom90();
+            objectB.turnRandom90();
+        }
+
+        else if (objectA.type === "opponent" && objectB.type === "opponent") {
+            objectA.turnRandom90();
+            objectB.turnRandom90();
+        }
+
+    }
+}
+
 
 
 function createWalls() {
@@ -228,7 +263,7 @@ class car {
         this.body = Bodies.rectangle(x, y, w, h, {restitution: 0.5, friction:0.5});
 
         //Information for the Collision System
-        
+        this.body.gameObject = this;
 
         
         
@@ -349,9 +384,11 @@ class wall {
         this.width = w;
         this.height = h;
         this.color = color;
+        this.type = "wall";
+
         this.body = Bodies.rectangle(x, y, w, h, {isStatic: true, restitution:1});
 
-        this.bodyLabel = "wall";
+        this.body.gameObject = this;
         
         World.add(world, this.body);
 
