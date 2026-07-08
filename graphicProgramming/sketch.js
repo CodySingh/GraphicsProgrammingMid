@@ -144,6 +144,32 @@ function resetGame() {
 
 }
 
+function startPracticeMode() {
+
+    //spawn player 
+    // spawn 4 computer cars 
+    // spawn in the starting area 
+    // computer cars dont move
+
+}
+
+function startRandomMode() {
+
+    //spawn player
+    //player spawn in starting area  
+    // spawn 4 computer cars in random locations with random headings
+
+}
+
+function startAdvancedMode() {
+
+    //spawn player in starting area 
+    //spawn 4 computer cars in random locations with random headings
+    //
+
+}
+
+
 function spawnPlayer(x, y) {
 
     player = new car(x, y, 50, 30, 'red', 0.0025, 8, 3, 0.04, "player");
@@ -404,3 +430,4 @@ class wall {
 
     }
 }
+
