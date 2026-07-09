@@ -38,7 +38,7 @@ function setup(){
     world.gravity.y = 0;
     world.gravity.x = 0;
 
-
+    
     createWalls();
 
     
@@ -49,6 +49,7 @@ function setup(){
 function draw(){
 
     background(220);
+    
 
     //player and computer Inputs
     playerControl();
@@ -62,29 +63,27 @@ function draw(){
     startingArea();
 
     //spawning player and computer cars
-    if (spawnMode) {
-
-        push();
-
-        noStroke();
-        fill('black');
-        textSize(24);
-        textStyle(NORMAL);
-
-        text("Click in the blue area to spawn", 250, 400);
-
-        pop();
-
-    }
     
-    //drawing of cars and walls 
-    for (let car of cars) { 
-        car.draw();
+
+    if (key == 1) {
+
+        startPracticeMode();
+
     }
 
-    for (let wall of walls) {
-        wall.draw();
+    if (key == 2) {
+
+        startRandomMode();
+
     }
+
+    if (key == 3) {
+
+        startAdvancedMode();
+
+    }
+
+    spawnFunction();
 
 }
 
@@ -144,12 +143,43 @@ function resetGame() {
 
 }
 
+
+function spawnFunction() {
+
+        if (spawnMode) {
+
+        push();
+
+        noStroke();
+        fill('black');
+        textSize(24);
+        textStyle(NORMAL);
+
+        text("Click in the blue area to spawn", 250, 400);
+
+        pop();
+
+    }
+    
+    //drawing of cars and walls 
+    for (let car of cars) { 
+        car.draw();
+    }
+
+    for (let wall of walls) {
+        wall.draw();
+    }
+
+}
+
 function startPracticeMode() {
 
     //spawn player 
     // spawn 4 computer cars 
     // spawn in the starting area 
     // computer cars dont move
+
+    text("Practice Mode", 250, 400);
 
 }
 
@@ -159,6 +189,8 @@ function startRandomMode() {
     //player spawn in starting area  
     // spawn 4 computer cars in random locations with random headings
 
+    text("Random Mode", 250, 400);
+
 }
 
 function startAdvancedMode() {
@@ -166,7 +198,7 @@ function startAdvancedMode() {
     //spawn player in starting area 
     //spawn 4 computer cars in random locations with random headings
     //
-
+    text("Advanced Mode", 250, 400);
 }
 
 
@@ -431,3 +463,32 @@ class wall {
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////DELETE AFTER DONE///////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function drawUI() {
+
+    push();
+
+    noStroke();
+    fill(0);
+    textSize(20);
+
+    text("Arena Assignment", 20, 30);
+
+    textSize(16);
+
+    text("1 - Practice", 20, 60);
+    text("2 - Random Opponents", 20, 85);
+    text("3 - Advanced Opponents", 20, 110);
+
+    text("------------------------", 20, 140);
+
+    
+
+    
+
+    pop();
+
+}
