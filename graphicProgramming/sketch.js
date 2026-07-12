@@ -180,6 +180,7 @@ function startPracticeMode() {
     // computer cars dont move
 
     text("Practice Mode", 250, 400);
+    spawnFunction();
 
 }
 
