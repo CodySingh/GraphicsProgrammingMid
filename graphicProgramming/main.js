@@ -653,3 +653,8 @@ class wall {
     }
 }
 
+
+//For the physics of the car I made the cars behave a bit more eratically because this made the game a bit more fast paced and more challenging. For the opponent logic or what i like to call 
+//the Opponent behaviors, I made game mode 2 simple and just made them move straight. I did this becasue when they collided with either another car or a wall their trojectory would change and this
+// would make the cars start to move and turn. This furture made things intreseting because they spawned with random headings. This meant that their movement could not be predicted.
+//for Mode 3 i simple added random sin waves which would make their movements even more unpredictable and irratic while maintaining the randowm spawn system.
