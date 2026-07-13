@@ -14,6 +14,7 @@ let height = 700;
 
 let spawnMode = false;
 let player = null;
+let gameMode = null;
 
 
 let wallThickness = 5;
@@ -65,25 +66,9 @@ function draw(){
     //spawning player and computer cars
     
 
-    if (key == 1) {
-
-        startPracticeMode();
-
-    }
-
-    if (key == 2) {
-
-        startRandomMode();
-
-    }
-
-    if (key == 3) {
-
-        startAdvancedMode();
-
-    }
-
+    
     spawnFunction();
+    drawUI();
 
 }
 
@@ -105,6 +90,54 @@ function startingArea(){
     
 }
 
+function drawUI() {
+
+    push();
+
+    fill(0);
+    noStroke();
+
+    textSize(18);
+    textStyle(BOLD);
+    text("Arena Selection", 1120, 40);
+
+    textStyle(NORMAL);
+    textSize(16);
+
+    text("1 - Practice Mode", 1120, 70);
+    text("2 - Random Opponents", 1120, 95);
+    text("3 - Advanced Opponents", 1120, 120);
+
+    text("", 1120, 140);
+
+    text("I - Arm Vehicle Spawn", 1120, 170);
+    text("Click inside the blue Start Zone", 1120, 195);
+
+    text("", 1120, 220);
+
+    fill("red");
+    textSize(18);
+
+    if (gameMode == null) {
+        text("Current Mode: None", 1120, 250);
+    }
+
+    else if (gameMode == "practice") {
+        text("Current Mode: Practice", 1120, 250);
+    }
+
+    else if (gameMode == "random") {
+        text("Current Mode: Random", 1120, 250);
+    }
+
+    else if (gameMode == "advanced") {
+        text("Current Mode: Advanced", 1120, 250);
+    }
+
+    pop();
+
+}
+
 function keyPressed() {
 
     if (key === "i" || key === "I") {
@@ -112,21 +145,62 @@ function keyPressed() {
         resetGame();
 
     }
+
+    if (key === "1") {
+
+        resetGame();
+
+        gameMode = "practice";
+
+        
+    }
+
+    if (key === "2") {
+
+        resetGame();
+        gameMode = "random";
+        
+    }
+
+    if (key === "3") {
+
+        resetGame();
+        gameMode = "advanced";
+        
+    }
 }
 
 function mousePressed() {
+
 
     if (!spawnMode)
         return;
 
     if (mouseX >= 0 && mouseX <= startingAreaW && mouseY >= 0 && mouseY <= height) {
+        
         spawnPlayer(50, 350);
-        spawnOpponent(50,150, 'yellow', 0.0025, 8, 3, 0.04);
-        spawnOpponent(50,100, 'green', 0.0025, 8, 3, 0.04);
-        spawnOpponent(50,300, 'white', 0.0025, 8, 3, 0.04);
-        spawnOpponent(50,400, 'pink', 0.0025, 8, 3, 0.04);
-        spawnMode = false;
+
     }
+
+    if (gameMode === "practice") {
+
+        startPracticeMode();
+
+    }
+
+    else if (gameMode === "random") {
+
+        startRandomMode();
+
+    }
+
+    else if (gameMode === "advanced") {
+
+        startAdvancedMode();
+
+    }
+
+    spawnMode = false;
 
 }
 
@@ -174,33 +248,117 @@ function spawnFunction() {
 
 function startPracticeMode() {
 
-    //spawn player 
-    // spawn 4 computer cars 
-    // spawn in the starting area 
-    // computer cars dont move
+    resetGame();
+    spawnPlayer(50, 350);
 
-    text("Practice Mode", 250, 400);
-    spawnFunction();
+    gameMode = "practice";
+
+    spawnOpponent(50, 150, "yellow");
+    spawnOpponent(50, 250, "green");
+    spawnOpponent(50, 450, "white");
+    spawnOpponent(50, 550, "pink");
 
 }
 
 function startRandomMode() {
 
-    //spawn player
-    //player spawn in starting area  
-    // spawn 4 computer cars in random locations with random headings
+    resetGame();
+    spawnPlayer(50, 350);
 
-    text("Random Mode", 250, 400);
+    gameMode = "random";
+    
+    let colours = ["yellow", "green", "white", "pink"];
+    for (let i = 0; i < 4; i++) {
 
+        let validPosition = false;
+
+        while (!validPosition) {
+
+            let x = random(180, width - 80);
+            let y = random(60, height - 60);
+
+            validPosition = true;
+
+            // Check distance from every existing car
+            for (let car of cars) {
+
+                let dx = x - car.body.position.x;
+                let dy = y - car.body.position.y;
+
+                let distance = sqrt(dx * dx + dy * dy);
+
+                if (distance < 80) {
+                    validPosition = false;
+                    break;
+                }
+
+            }
+
+            if (validPosition) {
+
+                let opponent = new car( x,y,50,30, colours[i],0.0025,8,3,0.04,"opponent" );
+
+                // Random heading
+                Body.setAngle(opponent.body, random(TWO_PI));
+
+                cars.push(opponent);
+
+            }
+        }
+    }
 }
+
 
 function startAdvancedMode() {
 
-    //spawn player in starting area 
-    //spawn 4 computer cars in random locations with random headings
-    //
-    text("Advanced Mode", 250, 400);
+    resetGame();
+    spawnPlayer(50, 350);
+
+    gameMode = "advanced";
+
+    let colours = ["yellow", "green", "white", "pink"];
+    for (let i = 0; i < 4; i++) {
+
+        let validPosition = false;
+
+        while (!validPosition) {
+
+            let x = random(180, width - 80);
+            let y = random(60, height - 60);
+
+            validPosition = true;
+
+            // Check distance from every existing car
+            for (let car of cars) {
+
+                let dx = x - car.body.position.x;
+                let dy = y - car.body.position.y;
+
+                let distance = sqrt(dx * dx + dy * dy);
+
+                if (distance < 80) {
+                    validPosition = false;
+                    break;
+                }
+
+            }
+
+            if (validPosition) {
+
+                let opponent = new car( x,y,50,30, colours[i],0.0025,8,3,0.04,"opponent" );
+
+                // Random heading
+                Body.setAngle(opponent.body, random(TWO_PI));
+
+                cars.push(opponent);
+
+            }
+        }
+    }
+
 }
+
+
 
 
 function spawnPlayer(x, y) {
@@ -239,13 +397,30 @@ function spawnOpponent(x, y, color, engineForce, maxForwardSpeed, maxReverseSpee
 
 function opponentControls() {
 
+    if (gameMode === "practice") {
+
+        return;
+
+    }
+
     for (let car of cars) {
 
-        if (car.type != "opponent")
+        if (car.type != "opponent") {
             continue;
 
-        car.moveRight();
+        }
 
+        if (gameMode === "random") {
+
+            car.moveRight();
+
+        }
+
+        else if (gameMode === "advanced") {
+
+            car.advancedMovement();
+
+        }
     }
 }
 
@@ -323,6 +498,10 @@ class car {
 
         //Information for the Collision System
         this.body.gameObject = this;
+
+        this.waveOFFset = random(TWO_PI);
+        this.waveSpeed = random(0.03, 0.06);
+        this.waveAmount = 0.2;
 
         
         
@@ -433,6 +612,16 @@ class car {
         Body.setAngle(this.body, this.body.angle + turn);
 
     }
+    
+    advancedMovement() {
+
+        this.moveRight();
+
+        let turn = sin(frameCount * this.waveSpeed + this.waveOFFset);
+
+        Body.setAngle(this.body, this.body.angle + turn * this.waveAmount);
+
+    }
 
     
 }
@@ -464,32 +653,3 @@ class wall {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////DELETE AFTER DONE///////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-
-function drawUI() {
-
-    push();
-
-    noStroke();
-    fill(0);
-    textSize(20);
-
-    text("Arena Assignment", 20, 30);
-
-    textSize(16);
-
-    text("1 - Practice", 20, 60);
-    text("2 - Random Opponents", 20, 85);
-    text("3 - Advanced Opponents", 20, 110);
-
-    text("------------------------", 20, 140);
-
-    
-
-    
-
-    pop();
-
-}
